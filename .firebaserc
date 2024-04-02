@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "disney-clone-5d9b5"
-  }
+    "default": "disneyclonewebapp",
+    "y": "disneyclonewebapp"
+  },
+  "targets": {},
+  "etags": {}
 }

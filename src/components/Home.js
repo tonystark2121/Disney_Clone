@@ -22,11 +22,13 @@ const Home = (props) => {
   let originals = [];
   let trending = [];
 
+  console.log(db , "recommeds");
+
   useEffect(() => {
     console.log("hello");
     db.collection("movies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
-        console.log(recommends);
+        console.log(snapshot.docs , "snapshot.docs")
         switch (doc.data().type) {
           case "recommend":
             recommends = [...recommends, { id: doc.id, ...doc.data() }];
