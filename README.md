@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 The Project is hosted online with firebase using the google authentication with the following 
-link:- https://disney-clone-5d9b5.firebaseapp.com/
+link:- (https://disneyclonewebapp.web.app)
 
 ## Available Scripts
 
