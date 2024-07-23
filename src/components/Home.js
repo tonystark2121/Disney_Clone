@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider";
 import NewDisney from "./NewDisney";
@@ -7,14 +6,13 @@ import Recommends from "./Recommends";
 import Trending from "./Trending";
 import Viewers from "./Viewers";
 import { useEffect } from "react";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import db from "../firebase";
 import { setMovies } from "../features/movie/movieSlice";
 import { selectUserName } from "../features/user/userSlice";
-
+import { Helmet } from "react-helmet";
 
 const Home = (props) => {
-
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
   let recommends = [];
@@ -22,13 +20,9 @@ const Home = (props) => {
   let originals = [];
   let trending = [];
 
-  console.log(db , "recommeds");
-
   useEffect(() => {
-    console.log("hello");
     db.collection("movies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
-        console.log(snapshot.docs , "snapshot.docs")
         switch (doc.data().type) {
           case "recommend":
             recommends = [...recommends, { id: doc.id, ...doc.data() }];
@@ -59,16 +53,21 @@ const Home = (props) => {
     });
   }, [userName]);
 
-    return (
-        <Container>
-            <ImgSlider/>
-            <Viewers/>
-            <Recommends/>
-            <NewDisney/>
-            <Originals/>
-            <Trending/>
-        </Container>
-    );
+  return (
+    <>
+      <Helmet>
+        <title>Disney+ Clone</title>
+      </Helmet>
+      <Container>
+        <ImgSlider />
+        <Viewers />
+        <Recommends />
+        <NewDisney />
+        <Originals />
+        <Trending />
+      </Container>
+    </>
+  );
 };
 
 const Container = styled.main`

@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import db from "../firebase";
+import { Dialog, DialogContent, Typography } from "@mui/material";
+import ReactPlayer from "react-player";
+import { Helmet } from "react-helmet";
 
 const Detail = (props) => {
   const { id } = useParams();
   const [detailData, setDetailData] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     db.collection("movies")
@@ -24,38 +28,73 @@ const Detail = (props) => {
   }, [id]);
 
   return (
-    <Container>
-      <Background>
-        <img alt={detailData.title} src={detailData.backgroundImg} />
-      </Background>
+    <>
+      <Helmet>
+        <title>{detailData?.title} - Disney+ Clone</title>
+      </Helmet>
+      <Container>
+        {showModal && (
+          <Dialog
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            style={{ padding: "0px" }}
+            maxWidth="md"
+          >
+            <DialogContent
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: "black",
+              }}
+            >
+              <ReactPlayer
+                url={
+                  detailData?.link ||
+                  // "https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                  "https://drive.google.com/file/d/1TzmJj0bZp-WD6rhKfjG8b0MOoJYDr5ey/view?usp=sharing"
+                }
+                controls={true}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
 
-      <ImageTitle>
-        <img alt={detailData.title} src={detailData.titleImg} />
-      </ImageTitle>
-      <ContentMeta>
-        <Controls>
-          <Player>
-            <img src="/images/play-icon-black.png" alt="" />
-            <span>Play</span>
-          </Player>
-          <Trailer>
-            <img src="/images/play-icon-white.png" alt="" />
-            <span>Trailer</span>
-          </Trailer>
-          <AddList>
-            <span />
-            <span />
-          </AddList>
-          <GroupWatch>
-            <div>
-              <img src="/images/group-icon.png" alt="" />
-            </div>
-          </GroupWatch>
-        </Controls>
-        <SubTitle>{detailData.subTitle}</SubTitle>
-        <Description>{detailData.description}</Description>
-      </ContentMeta>
-    </Container>
+        <Background>
+          <img alt={detailData.title} src={detailData.backgroundImg} />
+        </Background>
+
+        <ImageTitle>
+          <img alt={detailData.title} src={detailData.titleImg} />
+        </ImageTitle>
+        <ContentMeta>
+          <Controls>
+            <Player
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
+              <img src="/images/play-icon-black.png" alt="" />
+              <span>Play</span>
+            </Player>
+            <Trailer>
+              <img src="/images/play-icon-white.png" alt="" />
+              <span>Trailer</span>
+            </Trailer>
+            <AddList>
+              <span />
+              <span />
+            </AddList>
+            <GroupWatch>
+              <div>
+                <img src="/images/group-icon.png" alt="" />
+              </div>
+            </GroupWatch>
+          </Controls>
+          <SubTitle>{detailData.subTitle}</SubTitle>
+          <Description>{detailData.description}</Description>
+        </ContentMeta>
+      </Container>
+    </>
   );
 };
 
